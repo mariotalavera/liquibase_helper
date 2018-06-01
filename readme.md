@@ -6,17 +6,17 @@ This is a 'helper' project to assist in common but annoying database ops.  It us
 ## Syntax
 
 ### Main tasks
-1. ==ant== **Move Database** - Moves the database from the *source.properties* db and puts it in the *destination.properties* db.
-1. ==ant getdb== **Get Database** - Extracts both schema and data from source database.
-1. ==ant putdb== **Put Database** - Creates and populated destination database.
-1. ==ant docdb== **Document Schema** - Reads the Liquibase Schema file stored in the "out" directory and creates Javadoc-style documentation in the *doc* directory.
-1. ==ant diffdb== **Diff** - Diffs source schema and reference schema.  Both of these are defined in the *source.properties* file.
+1. **ant** (Move Database) - Moves the database from the *source.properties* db and puts it in the *destination.properties* db.
+1. **ant getdb** (Get Database) - Extracts both schema and data from source database.
+1. **ant putdb** (Put Database) - Creates and populated destination database.
+1. **ant docdb** (Document Schema) - Reads the Liquibase Schema file stored in the "out" directory and creates Javadoc-style documentation in the *doc* directory.
+1. **ant diffdb** (Diff) - Diffs source schema and reference schema.  Both of these are defined in the *source.properties* file.
 
 ### Other tasks
-1. ==ant getschema== **Extract Schema** - Extracts the schema defined in the *source.properties* file and stores it in the *out* directory.
-1. ==ant getdata== **Extract Data** - Extracts the schema defined in the *source.properties* file and stores it in the *out* directory.
-1. ==ant putschema== **Create Schema** - Reads the Liquibase Schema file stored in the "out" directory and creates this schema in the *destination.properties* schema.
-1. ==ant putdata== **Insert Data** - Reads the data file in the *out* directory and inserts it into the schema defined in the *destination.properties* file.
+1. **ant getschema** (Extract Schema) - Extracts the schema defined in the *source.properties* file and stores it in the *out* directory.
+1. **ant getdata** (Extract Data) - Extracts the schema defined in the *source.properties* file and stores it in the *out* directory.
+1. **ant putschema** (Create Schema) - Reads the Liquibase Schema file stored in the "out" directory and creates this schema in the *destination.properties* schema.
+1. **ant putdata** (Insert Data) - Reads the data file in the *out* directory and inserts it into the schema defined in the *destination.properties* file.
 
 ## Ant Tasks
 
@@ -56,7 +56,7 @@ liquibase_helper/
 1. Unicode between db vendors.
 2. data type incompatibilities between db vendors.
 3. Binary data types (in Oracle at least).
-4. ==doc== column links do not resolve at data type level.  Incorrectly scoped?!
+4. **doc** column links do not resolve at data type level.  Incorrectly scoped?!
 
 ### Reference
 https://www.liquibase.org/documentation/command_line.html
