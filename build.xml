@@ -1,0 +1,103 @@
+<?xml version="1.0" ?> 
+<project name="liquibase_ant" basedir="." default="main">
+	<description>
+		Database operations with liquibase.
+	</description>
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+		<classpath>
+			<pathelement location="lib/ant-contrib-1.0b2.jar"/>
+		</classpath>
+	</taskdef>
+
+	<property file="build.properties"/>
+
+	<target name="main" depends="getdb,putdb" 
+		description="Extracts source database schema and data to Liquibase format and creates schema on destination database and inserts data."/>
+
+	<target name="getdb" depends="getschema,getdata"
+		 description="Extracts both the database schema and data to Liquibase format from the source database."/>
+
+	<target name="getschema" depends="cleanschema" 
+		description="Extract the schema to Liquibase format from the source database.">
+		<exec executable="liquibase">
+			<arg value="--defaultsFile=source.properties" />
+			<arg value="--changeLogFile=${dataDir}/${schemaFile}" />		
+			<arg value="generateChangeLog" />
+		</exec>
+	</target>
+
+	<target name="getdata" depends="cleandata"
+		 description="Extract the data to Liquibase format from the source database.">
+		<exec executable="liquibase">
+			<arg value="--defaultsFile=source.properties" />
+			<arg value="--diffTypes=data" />		
+			<arg value="--changeLogFile=${dataDir}/${dataFile}" />		
+			<arg value="generateChangeLog" />
+		</exec>
+	</target>
+
+	<target name="putdb" depends="putschema,putdata"
+		 description="Creates the database schema on the destination database and inserts the data from Liquibase extracts."/>
+
+	<target name="putschema" depends="dropdb"
+		 description="Creates the database schema on the destiantion database from Liquibase extract.">
+		<exec executable="liquibase">
+			<arg value="--defaultsFile=destination.properties" />
+			<arg value="--changeLogFile=${dataDir}/${schemaFile}" />		
+			<arg value="update" />
+		</exec>
+	</target>
+
+	<target name="dropdb" description="Drops all the database tables from the destination database.">
+		<exec executable="liquibase">
+			<arg value="--defaultsFile=destination.properties" />
+			<arg value="dropAll" />
+		</exec>
+	</target>
+
+
+	<target name="putdata" description="Inserts the extracted data on the destiantion database from Liquibase extract.">
+		<exec executable="liquibase">
+			<arg value="--defaultsFile=destination.properties" />
+			<arg value="--diffTypes=data" />		
+			<arg value="--changeLogFile=${dataDir}/${dataFile}" />		
+			<arg value="update" />
+		</exec>
+	</target>
+
+	<target name="docdb" depends="getdb" description="Generates documentation for the source database .">
+		<!-- TODO debug at 3rd page in -->
+		<exec executable="liquibase">
+			<arg value="--defaultsFile=source.properties" />		
+			<arg value="--changeLogFile=${dataDir}/${schemaFile}" />	
+			<arg value="dbDoc" />
+			<arg value="${docDir}" />
+		</exec>
+	</target>
+
+	<target name="diffdb" description="Performs a diff between the source and the reference database.">
+		<!-- TODO make this output to file instead -->
+		<exec executable="liquibase">
+			<arg value="--defaultsFile=source.properties" />		
+			<arg value="diff" />
+			<!--arg value="${dataDir}/${diffFile}" /-->
+		</exec>
+		<!--record name="${dataDir}/${diffFile}" /-->
+	</target>
+
+	<target name="cleanschema" description="Deletes the generated schema file from the source database, if it exists.">
+		<delete failonerror="false">
+			<fileset dir="${dataDir}/">
+				<include name="${schemaFile}"/>	
+			</fileset>
+		</delete>
+	</target>
+
+	<target name="cleandata" description="Deletes the generated data file from the source database, if it exists.">
+		<delete failonerror="false">
+			<fileset dir="${dataDir}/">
+				<include name="${dataFile}"/>	
+			</fileset>
+		</delete>
+	</target>
+</project>
