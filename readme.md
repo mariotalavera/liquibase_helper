@@ -6,6 +6,9 @@ This is a 'helper' project to assist in common but annoying database ops.  It us
 ## Syntax
 
 ### Main tasks
+
+<img src="http://www.mariotalavera.com/assets/liquibase/overview.png" alt="Liquibase Overview" width="50%">
+
 1. **ant** (Move Database) - Moves the database from the *source.properties* db and puts it in the *destination.properties* db.
 1. **ant getdb** (Get Database) - Extracts both schema and data from source database.
 1. **ant putdb** (Put Database) - Creates and populated destination database.
